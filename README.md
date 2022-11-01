@@ -41,3 +41,11 @@
 - Pushing code to GitHub
 - Solved potential security issues
 - Fixed an error where server/channels would not be found even when they exist
+
+## v1.2.7
+**Publish date: November 1st, 2022**
+
+- Added many more comments to the code
+- Added additional checks to command verification system so the bot does not mistake conversation for commands
+- Uncommented chat responses. Shhhh, don't say anything to them
+- Swapped the arguments for '!dice-roll' to better fit current dice terminology

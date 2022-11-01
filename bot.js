@@ -2,12 +2,16 @@
  * KETIH-KAZOOIE
  *
  * Author: Kevin "Krazy-Stew" Stewart
+ * 
  */
 
+/* Imports */
 const Discord = require('discord.js');
 const {keys} = require("./discord-keys.js");
 
 const bot = new Discord.Client();
+
+/* Variables */
 
 //8-Ball Responses
 var answerBank = [
@@ -28,18 +32,34 @@ var basedResponses = [
     "...based on what?"
 ];
 
+var SK4Scmds = [
+    "help",
+    "fav",
+    "unfav",
+    "8ball",
+    "dice-roll",
+];
+
 var role, username;
-var SK4Smash = keys.skServID; //Certain commands will be exclusive to the server with this name
-var clockTower = keys.clockTowerID; //Certain commands will be exclusive to Clockwork Tower channel
+var SK4Smash = bot.guilds.cache.get(keys.skServID); //Certain commands will be exclusive to the server with this name
+var clockTower = bot.channels.cache.get(keys.clockTowerID); //Certain commands will be exclusive to Clockwork Tower channel
+var plains = bot.channels.cache.get(keys.plainsChannelID); //For new joining members
 
-console.log('KEITH-KAZOOIE v1.2.6');
+console.log('KEITH-KAZOOIE v1.2.7');
 
+/* Functions */
+
+/*Custom - favorite
+    "add role" command usable by anyone to set their color
+*/
 function favorite(message, fav) {
     role = message.guild.roles.cache.find(role => role.name === fav);
     message.member.roles.add(role);
     message.channel.send('Ta-daaa! You now have the ' + fav + '  role.');
 }
-
+/*Custom - unfavorite
+    "remove role" command usable by anyone
+*/
 function unfavorite(message, fav) {
     role = message.guild.roles.cache.find(role => role.name === fav);
     if (message.member.roles.cache.find(r => r === role)) {
@@ -49,31 +69,38 @@ function unfavorite(message, fav) {
         message.channel.send('BRZZZZT! Sorry, I don\'t think you have that role.');
     }
 }
-
+/*Custom - roll
+    Simulates a die roll using a die with a given amount of sides
+*/
 function roll(sides) {
     var rand = Math.random() * sides; //Generate a random number from 1 to the amount of sides the die has
     console.log(rand);
     console.log(Math.ceil(rand));
     return Math.ceil(rand);
 }
+/*Discord - Add Guild Member
+    Have the bot say a special message when a new user joins the SK4Smash server,
+    and give them a role after 5 minutes 
 
-bot.on("guildMemberAdd", (member) => { //Looking for new members
+    TODO: This doesn't work. Find out why and fix it
+*/
+bot.on('guildMemberAdd', async(member) => { //Looking for new members
     console.log("new user found");
     if (member.guild.id = SK4Smash) {
         username = "" + member.user.tag + " (" + member.nickname + ")"; //For easier logging
         console.log(username + " has joined the server.");
-        if (member.guild.channels.cache.find(c => c.id === keys.plainsChannelID)) {
-            member.guild.channels.cache.find(c => c.id === keys.plainsChannelID).send(`
+            plains.send(`
                 "Welcome, "${member.user.username}", to the server! I'll give you a proper role soon, so in the meantime be sure to read #the-code-of-shovelry for the server rules. Enjoy your stay!"
             `);
             setTimeout(function () {
                 member.roles.add(member.guild.roles.cache.find(role => role.name === "Wandering Traveler"));
             }, 300000); //Wait 5 minutes after sending the message to actually give the role - you can use this time to read the rules - before giving the standard user role
-
-        }
     }
 });
 
+/*Discord - On Message
+    All potential responses to chat messages/chat commands go here
+*/
 bot.on('message', (message) => {
     //Ignore the message if it is a DM
     if (message.guild === null) return; 
@@ -92,12 +119,17 @@ bot.on('message', (message) => {
 
         //Commands Start
         case '!':
+            var args = message.content.substring(1).split(' ');
+            var cmd = args[0];
+            if(!SK4Scmds.includes(cmd)) {
+                //Invalid command; do nothing
+                break;
+            }
             if(message.guild.id == SK4Smash && message.channel.id != clockTower) {
                 message.channel.send('BRZZZZT! I can\'t use commands here! Try in Clockwork Tower!');
                 break;
             }
-            var args = message.content.substring(1).split(' ');
-            var cmd = args[0];
+            
             switch (cmd) {
                 case 'help': //!help
                     console.log('!help triggered by ' + username);
@@ -258,16 +290,16 @@ bot.on('message', (message) => {
                     console.log('!8ball triggered by ' + username + "; response: " + ans);
                     message.reply('Let me look into my magical 8-ball... ' + ans);
                     break;
-                case 'dice-roll': //!dice-roll [sides] [amount]
+                case 'dice-roll': //!dice-roll [amount] [sides]
                     if (args[1] != null && args[2] != null &&
                         Number(args[1]) && Number(args[2])) { //Make sure you're using valid numbers
 
-                        if(args[2] > 255)  {
+                        if(args[1] > 255)  {
                             message.channel.send('BRZZZZT! I don\'t have that many dice!');
                             break;
                         }
 
-                        var sides = args[1], amount = args[2],
+                        var sides = args[2], amount = args[1],
                         totalDice = 0, rolls = new Array();
 
                         for(var i = 0; i < amount; i++) {
@@ -283,20 +315,20 @@ bot.on('message', (message) => {
                         }
                     } else {
                         console.log('!dice-roll triggered by ' + username + "; invalid arguments");
-                        message.channel.send('BRZZZZT! You didn\'t use the command properly. It goes like this: !dice-roll [sides] [amount]');
+                        message.channel.send('BRZZZZT! You didn\'t use the command properly. It goes like this: !dice-roll [amount] [sides]');
                         message.channel.send('Be sure not to put the numbers in brackets.')
                     }
                     break;
 
-                /*case 'roles': //!roles - debugging; list the server roles to the console - not needed now
+                /* case 'roles': //!roles - debugging; list the server roles to the console - not needed now
                     console.log(message.guild.roles);
                     message.reply('I sent a list of roles to the console log.');
                     console.log(message.guild.available);
-                    break;*/
+                    break; */
             }
             break;
         default:
-            /* switch (message.content.toLowerCase()) { //easter eggs (commented out due to abuse clogging the server)
+             switch (message.content.toLowerCase()) { //easter eggs (previously commented out due to abuse clogging the server)
                 case 'hey':
                     console.log('Navi triggered by ' + username);
                     message.channel.send('Listen!');
@@ -306,7 +338,7 @@ bot.on('message', (message) => {
                     console.log('Based triggered by ' + username + "; result: " + basedRes);
                     message.channel.send(basedRes);
                     break;
-            } */
+            }
 
     }
 });
