@@ -49,3 +49,12 @@
 - Added additional checks to command verification system so the bot does not mistake conversation for commands
 - Uncommented chat responses. Shhhh, don't say anything to them
 - Swapped the arguments for '!dice-roll' to better fit current dice terminology
+
+## v1.2.8
+**Publish date: December 3rd, 2022**
+
+- Fixed the Add Guild Member event not triggering when a guild member is added.
+
+- Removed an unused command.
+
+- Tweaked the welcome message when a guild member joins.

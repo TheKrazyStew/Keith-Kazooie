@@ -40,12 +40,16 @@ var SK4Scmds = [
     "dice-roll",
 ];
 
-var role, username;
-var SK4Smash = bot.guilds.cache.get(keys.skServID); //Certain commands will be exclusive to the server with this name
-var clockTower = bot.channels.cache.get(keys.clockTowerID); //Certain commands will be exclusive to Clockwork Tower channel
-var plains = bot.channels.cache.get(keys.plainsChannelID); //For new joining members
+/*Channel/Server IDs
+    skID - Shovel Knight 4 Smash server ID
+    clock - Clock Tower (bot channel) ID
+    plain - Plains of Passage (general chat) ID
+*/
+var skID = keys.skServID;
+var clock = keys.clockTowerID;
+var plain = keys.plainsChannelID;
 
-console.log('KEITH-KAZOOIE v1.2.7');
+var role, username;
 
 /* Functions */
 
@@ -57,6 +61,7 @@ function favorite(message, fav) {
     message.member.roles.add(role);
     message.channel.send('Ta-daaa! You now have the ' + fav + '  role.');
 }
+
 /*Custom - unfavorite
     "remove role" command usable by anyone
 */
@@ -69,6 +74,7 @@ function unfavorite(message, fav) {
         message.channel.send('BRZZZZT! Sorry, I don\'t think you have that role.');
     }
 }
+
 /*Custom - roll
     Simulates a die roll using a die with a given amount of sides
 */
@@ -78,19 +84,18 @@ function roll(sides) {
     console.log(Math.ceil(rand));
     return Math.ceil(rand);
 }
+
 /*Discord - Add Guild Member
     Have the bot say a special message when a new user joins the SK4Smash server,
     and give them a role after 5 minutes 
-
-    TODO: This doesn't work. Find out why and fix it
 */
-bot.on('guildMemberAdd', async(member) => { //Looking for new members
+bot.on('guildMemberAdd', member => { //Looking for new members
     console.log("new user found");
-    if (member.guild.id = SK4Smash) {
+    if (member.guild.id == SK4Smash) {
         username = "" + member.user.tag + " (" + member.nickname + ")"; //For easier logging
         console.log(username + " has joined the server.");
             plains.send(`
-                "Welcome, "${member.user.username}", to the server! I'll give you a proper role soon, so in the meantime be sure to read #the-code-of-shovelry for the server rules. Enjoy your stay!"
+                Welcome, ${member.user.username}, to the server! I'll give you a proper role soon, so in the meantime be sure to read the Code of Shovelry channel for the server rules. Enjoy your stay!
             `);
             setTimeout(function () {
                 member.roles.add(member.guild.roles.cache.find(role => role.name === "Wandering Traveler"));
@@ -319,12 +324,6 @@ bot.on('message', (message) => {
                         message.channel.send('Be sure not to put the numbers in brackets.')
                     }
                     break;
-
-                /* case 'roles': //!roles - debugging; list the server roles to the console - not needed now
-                    console.log(message.guild.roles);
-                    message.reply('I sent a list of roles to the console log.');
-                    console.log(message.guild.available);
-                    break; */
             }
             break;
         default:
@@ -344,3 +343,12 @@ bot.on('message', (message) => {
 });
 
 bot.login(keys.discordToken); //Code for the bot to log into its account and access the servers it is in; should not be touched
+
+//Bot is ready
+bot.on('ready', () => {
+    SK4Smash = bot.guilds.cache.get(skID); //Certain commands will be exclusive to the server with this name
+    clockTower = bot.channels.cache.get(clock); //Certain commands will be exclusive to Clockwork Tower channel
+    plains = bot.channels.cache.get(plain); //For new joining members
+
+    console.log('KEITH-KAZOOIE v1.2.8');
+});
