@@ -6,10 +6,30 @@
  */
 
 /* Imports */
-const Discord = require('discord.js');
+const {Client, GatewayIntentBits} = require('discord.js');
 const {keys} = require("./discord-keys.js");
 
-const bot = new Discord.Client();
+const bot = new Client({intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildModeration,
+    GatewayIntentBits.GuildEmojisAndStickers,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildWebhooks,
+    GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessageTyping,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.DirectMessageReactions,
+    GatewayIntentBits.DirectMessageTyping,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildScheduledEvents,
+    GatewayIntentBits.AutoModerationConfiguration,
+    GatewayIntentBits.AutoModerationExecution
+]});
 
 /* Variables */
 
@@ -106,7 +126,7 @@ bot.on('guildMemberAdd', member => { //Looking for new members
 /*Discord - On Message
     All potential responses to chat messages/chat commands go here
 */
-bot.on('message', (message) => {
+bot.on('messageCreate', (message) => {
     //Ignore the message if it is a DM
     if (message.guild === null) return; 
 
@@ -350,5 +370,5 @@ bot.on('ready', () => {
     clockTower = bot.channels.cache.get(clock); //Certain commands will be exclusive to Clockwork Tower channel
     plains = bot.channels.cache.get(plain); //For new joining members
 
-    console.log('KEITH-KAZOOIE v1.2.8');
+    console.log('KEITH-KAZOOIE v1.2.9');
 });

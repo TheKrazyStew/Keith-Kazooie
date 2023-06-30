@@ -58,3 +58,8 @@
 - Removed an unused command.
 
 - Tweaked the welcome message when a guild member joins.
+
+## v1.2.9
+**Publish date: June 30th, 2022**
+
+- Updated the Discord API. I'll figure out which permissions I actually need later
