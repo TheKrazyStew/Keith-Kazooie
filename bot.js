@@ -151,18 +151,18 @@ bot.on('messageCreate', (message) => {
                 break;
             }
             if(message.guild.id == SK4Smash && message.channel.id != clockTower) {
-                message.channel.send('BRZZZZT! I can\'t use commands here! Try in Clockwork Tower!');
+                message.channel.send({content: 'BRZZZZT! I can\'t use commands here! Try in Clockwork Tower!'});
                 break;
             }
             
             switch (cmd) {
                 case 'help': //!help
                     console.log('!help triggered by ' + username);
-                    message.reply('Don\'t worry! I\'m here to help!');
-                    message.channel.send('- Use \'!8ball\' to ask a question to my magical 8-ball of fortune. It never fails! ...Probably.');
-                    message.channel.send('- Use \'!dice-roll [sides per die] [amount of dice]\' to roll some dice. May lady luck be on your side!')
+                    message.reply({content: 'Don\'t worry! I\'m here to help!'});
+                    message.channel.send({content: '- Use \'!8ball\' to ask a question to my magical 8-ball of fortune. It never fails! ...Probably.'});
+                    message.channel.send({content: '- Use \'!dice-roll [sides per die] [amount of dice]\' to roll some dice. May lady luck be on your side!'})
                     if (message.guild.id == SK4Smash) { //SK4Smash-exclusive commands
-                        message.channel.send('- Use \'!fav\' to request a username color based on one of the Knights! (e.g. \'!fav Shovel Knight\' for blue)');
+                        message.channel.send({content: '- Use \'!fav\' to request a username color based on one of the Knights! (e.g. \'!fav Shovel Knight\' for blue)'});
                     }
                     break;
                 case 'fav': //!fav 
@@ -224,17 +224,17 @@ bot.on('messageCreate', (message) => {
                                     favorite(message, 'Fleck');
                                     break;
                                 case "liquid": case "chief":
-                                    message.channel.send("BRRRZT! Sorry, I can't mess with that role!");
+                                    message.channel.send({content: "BRRRZT! Sorry, I can't mess with that role!"});
                                     break;
                                 default: //Role not found
-                                    message.channel.send('BRRRZT! Sorry, I couldn\'t find that role. Is it typed correctly?');
+                                    message.channel.send({content: 'BRRRZT! Sorry, I couldn\'t find that role. Is it typed correctly?'});
                                     break;
                             }
                         } else {
                             message.channel.send('BRZZZZT! Please enter a knight!');
                         }
                     } else {
-                        message.channel.send('BRZZZZT! Sorry, that command doesn\'t work here!');
+                        message.channel.send({content: 'BRZZZZT! Sorry, that command doesn\'t work here!'});
                         console.log('!fav attempted by ' + username + '; requested role: ' + args[1]);
                         console.log(message.guild.name + " " + message.channel.name); //Where was the command attempted from?
                     }
@@ -296,31 +296,31 @@ bot.on('messageCreate', (message) => {
                                     unfavorite(message, 'Fleck');
                                     break;
                                 case "liquid": case "chief":
-                                    message.channel.send("BRRRZT! Sorry, I can't mess with that role!");
+                                    message.channel.send({content: "BRRRZT! Sorry, I can't mess with that role!"});
                                     break;
                                 default: //Role not found
-                                    message.channel.send('BRRRZT! Sorry, I couldn\'t find that role. Is it typed correctly?');
+                                    message.channel.send({content: 'BRRRZT! Sorry, I couldn\'t find that role. Is it typed correctly?'});
                                     break;
                             }
                         } else {
                             message.channel.send('BRZZZZT! Please enter a knight!');
                         }
                     } else {
-                        message.channel.send('BRZZZZT! Sorry, that command doesn\'t work here!');
+                        message.channel.send({content: 'BRZZZZT! Sorry, that command doesn\'t work here!'});
                         console.log('!fav attempted outside of SK4Smash by ' + username + '; requested role: ' + args[1]); //Logging failed attempts in case one is in the SK4Smash server; if so, something is wrong
                     }
                     break;
                 case '8ball': //!8ball
                     var ans = answerBank[Math.floor(Math.random() * answerBank.length)];
                     console.log('!8ball triggered by ' + username + "; response: " + ans);
-                    message.reply('Let me look into my magical 8-ball... ' + ans);
+                    message.reply({content: 'Let me look into my magical 8-ball... ' + ans});
                     break;
                 case 'dice-roll': //!dice-roll [amount] [sides]
                     if (args[1] != null && args[2] != null &&
                         Number(args[1]) && Number(args[2])) { //Make sure you're using valid numbers
 
                         if(args[1] > 255)  {
-                            message.channel.send('BRZZZZT! I don\'t have that many dice!');
+                            message.channel.send({content: 'BRZZZZT! I don\'t have that many dice!'});
                             break;
                         }
 
@@ -333,15 +333,15 @@ bot.on('messageCreate', (message) => {
                             totalDice += die;
                         }
                         console.log('!dice-roll triggered by ' + username + "; sides: " + sides + "; amount: " + amount + "; response: " + totalDice + " <-> " + rolls);
-                        message.reply('Let\'s see what you rolled!');
-                        message.channel.send('Total roll: ' + totalDice);
+                        message.reply({content: 'Let\'s see what you rolled!'});
+                        message.channel.send({content: 'Total roll: ' + totalDice});
                         if(amount > 1) { //List multiple dice individually
-                            message.channel.send('Individual rolls: ' + rolls);
+                            message.channel.send({content: 'Individual rolls: ' + rolls});
                         }
                     } else {
                         console.log('!dice-roll triggered by ' + username + "; invalid arguments");
-                        message.channel.send('BRZZZZT! You didn\'t use the command properly. It goes like this: !dice-roll [amount] [sides]');
-                        message.channel.send('Be sure not to put the numbers in brackets.')
+                        message.channel.send({content: 'BRZZZZT! You didn\'t use the command properly. It goes like this: !dice-roll [amount] [sides]'});
+                        message.channel.send({content: 'Be sure not to put the numbers in brackets.'})
                     }
                     break;
             }
@@ -350,12 +350,12 @@ bot.on('messageCreate', (message) => {
              switch (message.content.toLowerCase()) { //easter eggs (previously commented out due to abuse clogging the server)
                 case 'hey':
                     console.log('Navi triggered by ' + username);
-                    message.channel.send('Listen!');
+                    message.channel.send({content: 'Listen!'});
                     break;
                 case 'based':
                     var basedRes = basedResponses[Math.floor(Math.random() * basedResponses.length)];
                     console.log('Based triggered by ' + username + "; result: " + basedRes);
-                    message.channel.send(basedRes);
+                    message.channel.send({content: basedRes});
                     break;
             }
 
