@@ -223,6 +223,39 @@ bot.on('messageCreate', (message) => {
                                 case "fleck":
                                     favorite(message, 'Fleck');
                                     break;
+                                case "madame":
+                                    favorite(message, 'Madame Meeber');
+                                    break;
+                                case "quandary":
+                                    favorite(message, 'Quandary Sage');
+                                    break;
+                                case "drill":
+                                    favorite(message, 'Drill Knight');
+                                    break;
+                                case "spore":
+                                    favorite(message, 'Spore Knight');
+                                    break;
+                                case "doze": case "dozedrake":
+                                    favorite(message, 'Dozedrake');
+                                    break;
+                                case "scrap":
+                                    favorite(message, 'Scrap Knight');
+                                    break;
+                                case "puzzle":
+                                    favorite(message, 'Puzzle Knight');
+                                    break;
+                                case "prism":
+                                    favorite(message, 'Prism Knight');
+                                    break;
+                                case "hive":
+                                    favorite(message, 'Hive Knight');
+                                    break;
+                                case "gold": case "goldarmor":
+                                    favorite(message, 'Goldarmor');
+                                    break;
+                                case "mona":
+                                    favorite(message, 'Mona');
+                                    break;
                                 case "liquid": case "chief":
                                     message.channel.send({content: "BRRRZT! Sorry, I can't mess with that role!"});
                                     break;
@@ -295,6 +328,39 @@ bot.on('messageCreate', (message) => {
                                 case "fleck":
                                     unfavorite(message, 'Fleck');
                                     break;
+                                case "madame":
+                                    unfavorite(message, 'Madame Meeber');
+                                    break;
+                                case "quandary":
+                                    unfavorite(message, 'Quandary Sage');
+                                    break;
+                                case "drill":
+                                    unfavorite(message, 'Drill Knight');
+                                    break;
+                                case "spore":
+                                    unfavorite(message, 'Spore Knight');
+                                    break;
+                                case "doze": case "dozedrake":
+                                    unfavorite(message, 'Dozedrake');
+                                    break;
+                                case "scrap":
+                                    unfavorite(message, 'Scrap Knight');
+                                    break;
+                                case "puzzle":
+                                    unfavorite(message, 'Puzzle Knight');
+                                    break;
+                                case "prism":
+                                    unfavorite(message, 'Prism Knight');
+                                    break;
+                                case "hive":
+                                    unfavorite(message, 'Hive Knight');
+                                    break;
+                                case "gold": case "goldarmor":
+                                    unfavorite(message, 'Goldarmor');
+                                    break;
+                                case "mona":
+                                    unfavorite(message, 'Mona');
+                                    break;
                                 case "liquid": case "chief":
                                     message.channel.send({content: "BRRRZT! Sorry, I can't mess with that role!"});
                                     break;
@@ -349,13 +415,17 @@ bot.on('messageCreate', (message) => {
         default:
              switch (message.content.toLowerCase()) { //easter eggs (previously commented out due to abuse clogging the server)
                 case 'hey':
-                    console.log('Navi triggered by ' + username);
-                    message.channel.send({content: 'Listen!'});
+                    if(roll(100) <= 5) {
+                        console.log('Navi triggered by ' + username);
+                        message.channel.send({content: 'Listen!'});
+                    }
                     break;
                 case 'based':
-                    var basedRes = basedResponses[Math.floor(Math.random() * basedResponses.length)];
-                    console.log('Based triggered by ' + username + "; result: " + basedRes);
-                    message.channel.send({content: basedRes});
+                    if(roll(100) <= 5) {
+                        var basedRes = basedResponses[Math.floor(Math.random() * basedResponses.length)];
+                        console.log('Based triggered by ' + username + "; result: " + basedRes);
+                        message.channel.send({content: basedRes});
+                    }
                     break;
             }
 
@@ -370,5 +440,5 @@ bot.on('ready', () => {
     clockTower = bot.channels.cache.get(clock); //Certain commands will be exclusive to Clockwork Tower channel
     plains = bot.channels.cache.get(plain); //For new joining members
 
-    console.log('KEITH-KAZOOIE v1.2.9');
+    console.log('KEITH-KAZOOIE v1.2.10');
 });

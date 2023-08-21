@@ -63,3 +63,10 @@
 **Publish date: June 30th, 2023**
 
 - Updated the Discord API. I'll figure out which permissions I actually need later
+
+## v1.2.10
+**Publish date: August 21st, 2023**
+
+- Added more roles to the Favorite and Unfavorite commands.
+
+- Easter eggs now only have a 5% chance to trigger instead of a 100% chance.
