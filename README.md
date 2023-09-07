@@ -70,3 +70,8 @@
 - Added more roles to the Favorite and Unfavorite commands.
 
 - Easter eggs now only have a 5% chance to trigger instead of a 100% chance.
+
+## v1.2.11
+**Publish date: September 7th, 2023**
+
+- Fixed an incorrect role name.

@@ -173,7 +173,7 @@ bot.on('messageCreate', (message) => {
                             console.log('!fav triggered by ' + username + '; requested role: ' + args[1]);
                             switch (args[1].toLowerCase()) { //which character color does user want?
                                 case "the": case "enchanter": case "enchantress": //covering multiple spellings
-                                    favorite(message, 'The Enchanter/Enchantress');
+                                    favorite(message, 'The Enchantress/Enchanter');
                                     break;
                                 case "propeller":
                                     favorite(message, 'Propeller Knight');
@@ -278,7 +278,7 @@ bot.on('messageCreate', (message) => {
                             console.log('!unfav triggered by ' + username + '; requested role: ' + args[1]);
                             switch (args[1].toLowerCase()) { //which character color does user want to remove?
                                 case "the": case "enchanter": case "enchantress":
-                                    unfavorite(message, 'The Enchanter/Enchantress');
+                                    unfavorite(message, 'The Enchantress/Enchanter');
                                     break;
                                 case "propeller":
                                     unfavorite(message, 'Propeller Knight');
@@ -440,5 +440,5 @@ bot.on('ready', () => {
     clockTower = bot.channels.cache.get(clock); //Certain commands will be exclusive to Clockwork Tower channel
     plains = bot.channels.cache.get(plain); //For new joining members
 
-    console.log('KEITH-KAZOOIE v1.2.10');
+    console.log('KEITH-KAZOOIE v1.2.11');
 });
