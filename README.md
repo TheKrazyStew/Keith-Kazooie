@@ -75,3 +75,8 @@
 **Publish date: September 7th, 2023**
 
 - Fixed an incorrect role name.
+
+## v1.3.0
+**Publish date: February 11th, 2024**
+
+- Added compatibility with reacting to obtain roles on the StewCraft server.

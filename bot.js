@@ -6,10 +6,15 @@
  */
 
 /* Imports */
-const {Client, GatewayIntentBits} = require('discord.js');
+const {Client, GatewayIntentBits, Partials} = require('discord.js');
 const {keys} = require("./discord-keys.js");
+const {ReactionRole} = require("discordjs-reaction-role");
 
-const bot = new Client({intents: [
+const bot = new Client({partials:[
+        Partials.Message,
+        Partials.Reaction,
+    ],
+    intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildModeration,
@@ -30,6 +35,8 @@ const bot = new Client({intents: [
     GatewayIntentBits.AutoModerationConfiguration,
     GatewayIntentBits.AutoModerationExecution
 ]});
+
+
 
 /* Variables */
 
@@ -60,16 +67,51 @@ var SK4Scmds = [
     "dice-roll",
 ];
 
+//List of reactions to accept for roles
+var colorRoles = [
+    '❤️',
+    '🧡',
+    '💛',
+    '💚',
+    '💙',
+    '💜',
+    '🩷',
+    '🤎',
+    '🖤',
+    '🩶',
+    '🤍',
+    '💔',
+];
+
 /*Channel/Server IDs
     skID - Shovel Knight 4 Smash server ID
     clock - Clock Tower (bot channel) ID
     plain - Plains of Passage (general chat) ID
+    scID - StewCraft server ID
+    colID - Color React Message ID
 */
 var skID = keys.skServID;
 var clock = keys.clockTowerID;
 var plain = keys.plainsChannelID;
-
+var scID = keys.scServID;
+var colID = keys.rolesMesID;
+var rolesC = keys.rolesChannelID;
 var role, username;
+
+const rr = new ReactionRole(bot, [
+    {messageId:colID, reaction:"❤️",roleId:keys.redID},
+    {messageId:colID, reaction:"🧡",roleId:keys.oraID},
+    {messageId:colID, reaction:"💛",roleId:keys.yelID},
+    {messageId:colID, reaction:"💚",roleId:keys.greID},
+    {messageId:colID, reaction:"💙",roleId:keys.bluID},
+    {messageId:colID, reaction:"💜",roleId:keys.purID},
+    {messageId:colID, reaction:"🩷",roleId:keys.pinID},
+    {messageId:colID, reaction:"🤎",roleId:keys.broID},
+    {messageId:colID, reaction:"🖤",roleId:keys.blaID},
+    {messageId:colID, reaction:"🩶",roleId:keys.graID},
+    {messageId:colID, reaction:"🤍",roleId:keys.whiID},
+    {messageId:colID, reaction:"💔",roleId:keys.banID},
+]); 
 
 /* Functions */
 
@@ -129,7 +171,19 @@ bot.on('guildMemberAdd', member => { //Looking for new members
 bot.on('messageCreate', (message) => {
     //Ignore the message if it is a DM
     if (message.guild === null) return; 
-
+    //Ignore the message if it is from StewCraft; Judgement handles those
+    if(message.guildId == scID){
+        if(message.content == "!react_form") {
+            message.channel.send("React for the color you want your name to be here! Remember, if you're a human, do NOT use 💔! It's a trap for bots like me!")
+                .then(msg2 => {
+                    for(var i = 0; i < colorRoles.length; i++) {
+                        msg2.react(colorRoles[i]);
+                    }
+                })
+            ;
+        }
+        return;
+    }
     //Recording username for easier logging
     username = "" +
     message.member.user.tag +
@@ -439,6 +493,9 @@ bot.on('ready', () => {
     SK4Smash = bot.guilds.cache.get(skID); //Certain commands will be exclusive to the server with this name
     clockTower = bot.channels.cache.get(clock); //Certain commands will be exclusive to Clockwork Tower channel
     plains = bot.channels.cache.get(plain); //For new joining members
-
-    console.log('KEITH-KAZOOIE v1.2.11');
+    rch = bot.channels.cache.get(rolesC);
+    rMess = rch.messages.fetch(colID); 
+    
+    console.log('KEITH-KAZOOIE v1.3.0');
 });
+
