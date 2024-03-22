@@ -80,3 +80,8 @@
 **Publish date: February 11th, 2024**
 
 - Added compatibility with reacting to obtain roles on the StewCraft server.
+
+## v1.3.1
+**Publish date: March 21st, 2024**
+
+- Added more reaction roles for the StewCraft server.

@@ -82,7 +82,11 @@ var colorRoles = [
     '🤍',
     '💔',
 ];
-
+var pingRoles = [
+    '🎙️',
+    '📝',
+    '📹',
+];
 /*Channel/Server IDs
     skID - Shovel Knight 4 Smash server ID
     clock - Clock Tower (bot channel) ID
@@ -96,6 +100,7 @@ var plain = keys.plainsChannelID;
 var scID = keys.scServID;
 var colID = keys.rolesMesID;
 var rolesC = keys.rolesChannelID;
+var pingID = keys.pingMesID;
 var role, username;
 
 const rr = new ReactionRole(bot, [
@@ -111,6 +116,9 @@ const rr = new ReactionRole(bot, [
     {messageId:colID, reaction:"🩶",roleId:keys.graID},
     {messageId:colID, reaction:"🤍",roleId:keys.whiID},
     {messageId:colID, reaction:"💔",roleId:keys.banID},
+    {messageId:pingID,reaction:"🎙️",roleId:keys.streamID},
+    {messageId:pingID,reaction:"📹",roleId:keys.videoID},
+    {messageId:pingID,reaction:"📝",roleId:keys.blogID},
 ]); 
 
 /* Functions */
@@ -178,6 +186,14 @@ bot.on('messageCreate', (message) => {
                 .then(msg2 => {
                     for(var i = 0; i < colorRoles.length; i++) {
                         msg2.react(colorRoles[i]);
+                    }
+                })
+            ;
+        } else if(message.content == "!pings_form") {
+            message.channel.send("React to get pings! For stream pings, react with 🎙️. For blog update pings, react with 📝. For video pings, react with 📹.")
+                .then(msg2 => {
+                    for(var i = 0; i < pingRoles.length; i++) {
+                        msg2.react(pingRoles[i]);
                     }
                 })
             ;
@@ -496,6 +512,6 @@ bot.on('ready', () => {
     rch = bot.channels.cache.get(rolesC);
     rMess = rch.messages.fetch(colID); 
     
-    console.log('KEITH-KAZOOIE v1.3.0');
+    console.log('KEITH-KAZOOIE v1.3.1');
 });
 
