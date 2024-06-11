@@ -85,3 +85,8 @@
 **Publish date: March 21st, 2024**
 
 - Added more reaction roles for the StewCraft server.
+
+## v1.3.3
+**Publish date: June 10th, 2024**
+
+- Added new role to the SK4S fav/unfav commands.

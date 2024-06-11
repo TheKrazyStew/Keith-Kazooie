@@ -326,6 +326,9 @@ bot.on('messageCreate', (message) => {
                                 case "mona":
                                     favorite(message, 'Mona');
                                     break;
+                                case "altius":
+                                    favorite(message, 'Altius');
+                                    break;
                                 case "liquid": case "chief":
                                     message.channel.send({content: "BRRRZT! Sorry, I can't mess with that role!"});
                                     break;
@@ -431,6 +434,9 @@ bot.on('messageCreate', (message) => {
                                 case "mona":
                                     unfavorite(message, 'Mona');
                                     break;
+                                case "altius":
+                                    unfavorite(message, 'Altius');
+                                    break;
                                 case "liquid": case "chief":
                                     message.channel.send({content: "BRRRZT! Sorry, I can't mess with that role!"});
                                     break;
@@ -512,6 +518,5 @@ bot.on('ready', () => {
     rch = bot.channels.cache.get(rolesC);
     rMess = rch.messages.fetch(colID); 
     
-    console.log('KEITH-KAZOOIE v1.3.1');
+    console.log('KEITH-KAZOOIE v1.3.3');
 });
-
